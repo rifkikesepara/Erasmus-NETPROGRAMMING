@@ -10,13 +10,14 @@ using System.Windows.Forms;
 
 namespace List4
 {
+
     public partial class Game : Form
     {
-        private Label[] labels = new Label[9];
+        private Label[,] labels = new Label[3,3];
         private bool mainMenuButton = false;
         public enum Players
         {
-            X = 0, Y
+            X = 0, O
         }
 
         public static Players? playerTurn;
@@ -24,20 +25,22 @@ namespace List4
         public Game()
         {
             InitializeComponent();
-            label1.Click += new System.EventHandler(HandlePlayerTurn); labels[0] = label1;
-            label2.Click += new System.EventHandler(HandlePlayerTurn); labels[1] = label2;
-            label3.Click += new System.EventHandler(HandlePlayerTurn); labels[2] = label3;
-            label4.Click += new System.EventHandler(HandlePlayerTurn); labels[3] = label4;
-            label5.Click += new System.EventHandler(HandlePlayerTurn); labels[4] = label5;
-            label6.Click += new System.EventHandler(HandlePlayerTurn); labels[5] = label6;
-            label7.Click += new System.EventHandler(HandlePlayerTurn); labels[6] = label7;
-            label8.Click += new System.EventHandler(HandlePlayerTurn); labels[7] = label8;
-            label9.Click += new System.EventHandler(HandlePlayerTurn); labels[8] = label9;
+
+            //init event handlers
+            label1.Click += new System.EventHandler(HandlePlayerTurn); labels[0, 0] = label1;
+            label2.Click += new System.EventHandler(HandlePlayerTurn); labels[0, 1] = label2;
+            label3.Click += new System.EventHandler(HandlePlayerTurn); labels[0, 2] = label3;
+            label4.Click += new System.EventHandler(HandlePlayerTurn); labels[1, 0] = label4;
+            label5.Click += new System.EventHandler(HandlePlayerTurn); labels[1, 1] = label5;
+            label6.Click += new System.EventHandler(HandlePlayerTurn); labels[1, 2] = label6;
+            label7.Click += new System.EventHandler(HandlePlayerTurn); labels[2, 0] = label7;
+            label8.Click += new System.EventHandler(HandlePlayerTurn); labels[2, 1] = label8;
+            label9.Click += new System.EventHandler(HandlePlayerTurn); labels[2, 2] = label9;
 
             //selecting random initial turn of the players
             Random rnd = new Random();
             if (rnd.Next(0, 1) == 0) playerTurn = Players.X;
-            else playerTurn = Players.Y;
+            else playerTurn = Players.O;
 
             playerTurnLabel.Text += (playerTurn == Players.X ? " X" : " O");
         }
@@ -48,71 +51,116 @@ namespace List4
             Application.Exit();
         }
 
+        private int Minimax(Label[,] board, int depth, bool isMaximizing)
+        {
+            if (CheckTheWinner()=='O')
+                return 10 - depth;
+            if (CheckTheWinner()=='X')
+                return depth - 10;
+            if (CheckTheWinner()=='-')
+                return 0;
+
+            if (isMaximizing)
+            {
+                int bestScore = int.MinValue;
+
+                for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        if (board[i, j].Text == "")
+                        {
+                            board[i, j].Text = "O";
+                            int score = Minimax(board, depth + 1, false);
+                            board[i, j].Text = "";
+                            bestScore = Math.Max(score, bestScore);
+                        }
+                    }
+                }
+
+                return bestScore;
+            }
+            else
+            {
+                int bestScore = int.MaxValue;
+
+                for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        if (board[i,j].Text == "")
+                        {
+                            board[i, j].Text = "X";
+                            int score = Minimax(board, depth + 1, true);
+                            board[i, j].Text = "";
+                            bestScore = Math.Min(score, bestScore);
+                        }
+                    }
+                }
+
+                return bestScore;
+            }
+        }
+
         private char CheckTheWinner()
         {
             char temp = 'i';
-            int counter = 1;
-
-            
+            //int counter = 1;
 
             //checking the rows
-            for (int i = 0; i < labels.Length; i++)
+            for(int i = 0;i<3;i++)
             {
-                if (counter % 3 != 0)
+                for (int j = 0; j < 3; j++)
                 {
-                    if (labels[i].Text == "") { temp = 'i'; i += 2 - (i % 3); counter = 1; continue; }
-                    else if (temp == 'i') { temp = labels[i].Text[0]; continue; }
-                    else if (temp != labels[i].Text[0]) { temp = 'i'; i += 2 - (i % 3); counter = 1; continue; }
-                    counter++;
+                    if (labels[i, j].Text==""){ temp = 'i'; break; }
+                    else if (temp == 'i') temp = labels[i, j].Text[0];
+                    else if (temp != labels[i, j].Text[0]) { temp = 'i'; break; }
                 }
-                else if (temp != 'i') return temp;
+                if (temp != 'i') break;
             }
 
             //checking the columns
-            for (int i = 0; i < labels.Length;)
+            for(int i = 0;i<3;i++)
             {
-                if (counter % 3 != 0)
+                for(int j = 0;j<3;j++)
                 {
-                    if (labels[i].Text == "")
-                    {
-                        temp = 'i';
-                        if (i == 2 || i == 5 | i == 8) break;
-                        i = 1 + (i % 3);
-                        counter = 1;
-                        continue;
-                    }
-                    else if (temp == 'i') { temp = labels[i].Text[0]; i += 3; continue; }
-                    else if (temp != labels[i].Text[0]) { temp = 'i'; if (i == 2 || i == 5 | i == 8) break; i = 1 + (i % 3); counter = 1; continue; }
-                    counter++; 
-                    if (counter % 3 == 0) return temp;
-                    i += 3;
+                    if (labels[j,i].Text==""){ temp = 'i'; break; }
+                    else if (temp == 'i') temp = labels[j, i].Text[0];
+                    else if (temp != labels[j, i].Text[0]) { temp = 'i'; break; }
                 }
+                if (temp != 'i') break;
             }
 
-            bool reverse = false;
             //checking crosses
-            for (int i = 0; i < labels.Length;)
+            for (int i = 0; i < 3; i++)
             {
-                if (labels[i].Text == "")
+                if (labels[i, i].Text == "") { temp = 'i'; break; }
+                else if (temp == 'i') temp = labels[i, i].Text[0];
+                else if (temp != labels[i, i].Text[0]) { temp = 'i'; break; }
+            }
+            if (temp == 'i')
+            {
+                for (int i = 0; i < 3; i++)
                 {
-                    temp = 'i';
-                    if (i == 6||i==4||i==2) break;
-                    i = 6; reverse = true; continue;
+                    if (labels[i, 2 - i].Text == "") { temp = 'i'; break; }
+                    else if (temp == 'i') temp = labels[i, 2 - i].Text[0];
+                    else if (temp != labels[i, 2 - i].Text[0]) { temp = 'i'; break; }
                 }
-                else if (temp == 'i') { temp = labels[i].Text[0]; }
-                else if (temp != labels[i].Text[0]) {  temp = 'i';if (i == 6||i==4||i==2) break; i = 6;reverse = true; continue; }
-                if (!reverse) i += 4;
-                else { if (i == 2) break; i -= 2; }
             }
 
-
-            for (int i = 0; i < labels.Length && temp == 'i'; i++)
+            //checking if it's even
+            bool even = true;
+            for (int i = 0; i < 3; i++)
             {
-                if (labels[i].Text == "") break;
-                else if (labels[i].Text != "" && i == 8)
+                for (int j=0; j < 3; j++)
                 {
-                    return '-';
+                    if (labels[i, j].Text == "") { even = false; break; }
+                    else if (labels[i, j].Text != "" && i == 2 && j == 2) 
+                    {
+                        return '-';
+                    }
                 }
+                if (!even) break;
             }
 
             return temp;
@@ -123,8 +171,8 @@ namespace List4
             Label crn = (Label)sender;
             switch (playerTurn)
             {
-                case Players.X: crn.Text = "X"; crn.Enabled = false; playerTurn = Players.Y; playerTurnLabel.Text = "Player Turn: O"; break;
-                case Players.Y: crn.Text = "O"; crn.Enabled = false; playerTurn = Players.X; playerTurnLabel.Text = "Player Turn: X"; break;
+                case Players.X: crn.Text = "X"; crn.Enabled = false; playerTurn = Players.O; playerTurnLabel.Text = "Player Turn: O"; break;
+                case Players.O: crn.Text = "O"; crn.Enabled = false; playerTurn = Players.X; playerTurnLabel.Text = "Player Turn: X"; break;
             }
             switch(CheckTheWinner())
             {
@@ -144,7 +192,7 @@ namespace List4
             {
                 case 'X': playerTurnLabel.ForeColor = Color.Green;
                 playerTurnLabel.Text = "The Winner is X";break;
-                case 'Y':playerTurnLabel.ForeColor = Color.Green;
+                case 'O':playerTurnLabel.ForeColor = Color.Green;
                 playerTurnLabel.Text = "The Winner is O";break;
                 case '-':playerTurnLabel.ForeColor = Color.Red;
                 playerTurnLabel.Text = "Draw";break;
