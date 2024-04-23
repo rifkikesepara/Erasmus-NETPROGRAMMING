@@ -116,7 +116,7 @@ namespace List4
                     else if (temp == 'i') temp = labels[i, j].Text[0];
                     else if (temp != labels[i, j].Text[0]) { temp = 'i'; break; }
                 }
-                if (temp != 'i') break;
+                if (temp != 'i') return temp;
             }
 
             //checking the columns
@@ -128,7 +128,7 @@ namespace List4
                     else if (temp == 'i') temp = labels[j, i].Text[0];
                     else if (temp != labels[j, i].Text[0]) { temp = 'i'; break; }
                 }
-                if (temp != 'i') break;
+                if (temp != 'i') return temp;
             }
 
             //checking crosses
