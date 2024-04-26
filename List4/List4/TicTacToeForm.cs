@@ -40,5 +40,10 @@ namespace List4
             Game gameForm = new Game();
             gameForm.Show();
         }
+
+        private void TicTacToeForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

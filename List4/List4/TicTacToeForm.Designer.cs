@@ -78,6 +78,7 @@
             this.Name = "TicTacToeForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TicTacToe Game";
+            this.Load += new System.EventHandler(this.TicTacToeForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

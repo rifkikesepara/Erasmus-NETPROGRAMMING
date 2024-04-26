@@ -10,7 +10,6 @@ using System.Windows.Forms;
 
 namespace List4
 {
-
     public partial class Game : Form
     {
         private Label[,] labels = new Label[3,3];
@@ -37,10 +36,7 @@ namespace List4
             label8.Click += new System.EventHandler(HandlePlayerTurn); labels[2, 1] = label8;
             label9.Click += new System.EventHandler(HandlePlayerTurn); labels[2, 2] = label9;
 
-            //selecting random initial turn of the players
-            Random rnd = new Random();
-            if (rnd.Next(0, 1) == 0) playerTurn = Players.X;
-            else playerTurn = Players.O;
+            playerTurn = Players.X;
 
             playerTurnLabel.Text += (playerTurn == Players.X ? " X" : " O");
         }
@@ -53,22 +49,22 @@ namespace List4
 
         private int Minimax(Label[,] board, int depth, bool isMaximizing)
         {
-            if (CheckTheWinner()=='O')
+            if(CheckTheWinner() == 'O')
                 return 10 - depth;
-            if (CheckTheWinner()=='X')
+            if(CheckTheWinner() == 'X')
                 return depth - 10;
-            if (CheckTheWinner()=='-')
+            if(CheckTheWinner() == '-')
                 return 0;
 
-            if (isMaximizing)
+            if(isMaximizing)
             {
                 int bestScore = int.MinValue;
 
-                for (int i = 0; i < 3; i++)
+                for(int i = 0; i < 3; i++)
                 {
-                    for (int j = 0; j < 3; j++)
+                    for(int j = 0; j < 3; j++)
                     {
-                        if (board[i, j].Text == "")
+                        if(board[i, j].Text == "")
                         {
                             board[i, j].Text = "O";
                             int score = Minimax(board, depth + 1, false);
@@ -84,11 +80,11 @@ namespace List4
             {
                 int bestScore = int.MaxValue;
 
-                for (int i = 0; i < 3; i++)
+                for(int i = 0; i < 3; i++)
                 {
-                    for (int j = 0; j < 3; j++)
+                    for(int j = 0; j < 3; j++)
                     {
-                        if (board[i,j].Text == "")
+                        if(board[i, j].Text == "")
                         {
                             board[i, j].Text = "X";
                             int score = Minimax(board, depth + 1, true);
@@ -100,6 +96,21 @@ namespace List4
 
                 return bestScore;
             }
+        }
+
+        private void PlayAI()
+        {
+            Random rnd=new Random();
+            int x = rnd.Next(0, 3), y = rnd.Next(0, 3);
+            while(labels[x, y].Text != "")
+            {
+                x = rnd.Next(0, 3);
+                y = rnd.Next(0, 3);
+            }
+            labels[x, y].Text = "O";
+            labels[x, y].Enabled = false;
+            playerTurn = Players.X;
+            CheckTheWinner();
         }
 
         private char CheckTheWinner()
@@ -138,15 +149,16 @@ namespace List4
                 else if (temp == 'i') temp = labels[i, i].Text[0];
                 else if (temp != labels[i, i].Text[0]) { temp = 'i'; break; }
             }
-            if (temp == 'i')
+            if(temp == 'i')
             {
-                for (int i = 0; i < 3; i++)
+                for(int i = 0; i < 3; i++)
                 {
-                    if (labels[i, 2 - i].Text == "") { temp = 'i'; break; }
-                    else if (temp == 'i') temp = labels[i, 2 - i].Text[0];
-                    else if (temp != labels[i, 2 - i].Text[0]) { temp = 'i'; break; }
+                    if(labels[i, 2 - i].Text == "") { temp = 'i'; break; }
+                    else if(temp == 'i') temp = labels[i, 2 - i].Text[0];
+                    else if(temp != labels[i, 2 - i].Text[0]) { temp = 'i'; break; }
                 }
             }
+            else return temp;
 
             //checking if it's even
             bool even = true;
@@ -169,16 +181,27 @@ namespace List4
         private void HandlePlayerTurn(object sender, EventArgs e)
         {
             Label crn = (Label)sender;
-            switch (playerTurn)
+            switch(playerTurn)
             {
                 case Players.X: crn.Text = "X"; crn.Enabled = false; playerTurn = Players.O; playerTurnLabel.Text = "Player Turn: O"; break;
                 case Players.O: crn.Text = "O"; crn.Enabled = false; playerTurn = Players.X; playerTurnLabel.Text = "Player Turn: X"; break;
             }
             switch(CheckTheWinner())
             {
-                case 'X':SetTheWinner('X');break;
-                case 'O':SetTheWinner('O');break;
-                case '-':SetTheWinner('-');break;
+                case 'X': SetTheWinner('X'); return;
+                case 'O': SetTheWinner('O'); return;
+                case '-': SetTheWinner('-'); return;
+            }
+
+            if(playerTurn == Players.O&&TicTacToeForm.gameState==TicTacToeForm.GameState.Computer)
+            {
+                PlayAI();
+                switch(CheckTheWinner())
+                {
+                    case 'X': SetTheWinner('X'); return;
+                    case 'O': SetTheWinner('O'); return;
+                    case '-': SetTheWinner('-'); return;
+                }
             }
         }
 
