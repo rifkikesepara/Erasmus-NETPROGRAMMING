@@ -40,7 +40,6 @@ namespace List5
             }
             else if(e.KeyCode == Keys.Return)
             {
-                var ins = Form1.Instance;
                 switch (state)
                 {
                     case State.Rename:

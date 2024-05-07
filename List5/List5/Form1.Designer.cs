@@ -29,15 +29,18 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("deneme", 0);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("123");
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("deneme", 0);
             System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("123");
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("deneme", 0);
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("123");
             this.leftListView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.revealİnFileExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.propertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imageListIcons = new System.Windows.Forms.ImageList(this.components);
             this.button1 = new System.Windows.Forms.Button();
             this.rightListView = new System.Windows.Forms.ListView();
@@ -60,15 +63,14 @@
             this.button3 = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label3 = new System.Windows.Forms.Label();
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.propertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.revealİnFileExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.contextMenuStrip1.SuspendLayout();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip2.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // leftListView
@@ -79,11 +81,11 @@
             this.columnHeader5});
             this.leftListView.ContextMenuStrip = this.contextMenuStrip2;
             this.leftListView.HideSelection = false;
-            listViewItem1.Checked = true;
-            listViewItem1.StateImageIndex = 1;
+            listViewItem3.Checked = true;
+            listViewItem3.StateImageIndex = 1;
             this.leftListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1,
-            listViewItem2});
+            listViewItem3,
+            listViewItem4});
             this.leftListView.LargeImageList = this.imageListIcons;
             this.leftListView.Location = new System.Drawing.Point(104, 94);
             this.leftListView.Name = "leftListView";
@@ -110,6 +112,29 @@
             this.columnHeader5.Text = "Date";
             this.columnHeader5.Width = 100;
             // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.revealİnFileExplorerToolStripMenuItem,
+            this.propertiesToolStripMenuItem});
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.ShowImageMargin = false;
+            this.contextMenuStrip2.Size = new System.Drawing.Size(164, 48);
+            // 
+            // revealİnFileExplorerToolStripMenuItem
+            // 
+            this.revealİnFileExplorerToolStripMenuItem.Name = "revealİnFileExplorerToolStripMenuItem";
+            this.revealİnFileExplorerToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.revealİnFileExplorerToolStripMenuItem.Text = "Reveal in File Explorer";
+            this.revealİnFileExplorerToolStripMenuItem.Click += new System.EventHandler(this.revealİnFileExplorerToolStripMenuItem_Click);
+            // 
+            // propertiesToolStripMenuItem
+            // 
+            this.propertiesToolStripMenuItem.Name = "propertiesToolStripMenuItem";
+            this.propertiesToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
+            this.propertiesToolStripMenuItem.Text = "Properties";
+            this.propertiesToolStripMenuItem.Click += new System.EventHandler(this.propertiesToolStripMenuItem_Click);
+            // 
             // imageListIcons
             // 
             this.imageListIcons.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListIcons.ImageStream")));
@@ -135,11 +160,11 @@
             this.columnHeader6});
             this.rightListView.ContextMenuStrip = this.contextMenuStrip2;
             this.rightListView.HideSelection = false;
-            listViewItem3.Checked = true;
-            listViewItem3.StateImageIndex = 1;
+            listViewItem5.Checked = true;
+            listViewItem5.StateImageIndex = 1;
             this.rightListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem3,
-            listViewItem4});
+            listViewItem5,
+            listViewItem6});
             this.rightListView.LargeImageList = this.imageListIcons;
             this.rightListView.Location = new System.Drawing.Point(429, 96);
             this.rightListView.Name = "rightListView";
@@ -327,29 +352,6 @@
             this.label3.Text = "C:\\";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // contextMenuStrip2
-            // 
-            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.revealİnFileExplorerToolStripMenuItem,
-            this.propertiesToolStripMenuItem});
-            this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.ShowImageMargin = false;
-            this.contextMenuStrip2.Size = new System.Drawing.Size(164, 48);
-            // 
-            // propertiesToolStripMenuItem
-            // 
-            this.propertiesToolStripMenuItem.Name = "propertiesToolStripMenuItem";
-            this.propertiesToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
-            this.propertiesToolStripMenuItem.Text = "Properties";
-            this.propertiesToolStripMenuItem.Click += new System.EventHandler(this.propertiesToolStripMenuItem_Click);
-            // 
-            // revealİnFileExplorerToolStripMenuItem
-            // 
-            this.revealİnFileExplorerToolStripMenuItem.Name = "revealİnFileExplorerToolStripMenuItem";
-            this.revealİnFileExplorerToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
-            this.revealİnFileExplorerToolStripMenuItem.Text = "Reveal in File Explorer";
-            this.revealİnFileExplorerToolStripMenuItem.Click += new System.EventHandler(this.revealİnFileExplorerToolStripMenuItem_Click);
-            // 
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
@@ -386,11 +388,33 @@
             this.label5.TabIndex = 9;
             this.label5.Text = "Search";
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(298, 394);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(63, 17);
+            this.checkBox1.TabIndex = 10;
+            this.checkBox1.Text = "Content";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(623, 391);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(63, 17);
+            this.checkBox2.TabIndex = 10;
+            this.checkBox2.Text = "Content";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.checkBox2);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textBox2);
@@ -417,8 +441,8 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "File Manager";
-            this.contextMenuStrip1.ResumeLayout(false);
             this.contextMenuStrip2.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -459,6 +483,8 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox2;
     }
 }
 

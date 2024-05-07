@@ -29,7 +29,7 @@ namespace List5
 
         private void InspectAndEdit_Load(object sender, EventArgs e)
         {
-            richTextBox1.Text = File.ReadAllText(currentFile);
+            richTextBox1.Text = File.ReadAllText(Path.GetFullPath(currentFile));
         }
     }
 }

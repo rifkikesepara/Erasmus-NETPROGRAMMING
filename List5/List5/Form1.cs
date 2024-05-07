@@ -87,7 +87,8 @@ namespace List5
         {
             listView.Items.Clear();
             RenameLabels();
-            leftItems.Clear();rightItems.Clear();
+            if (listView.Name == "leftListView") leftItems.Clear();
+            else rightItems.Clear();
             try
             {
                 foreach (var directory in Directory.GetDirectories(path))
@@ -103,7 +104,7 @@ namespace List5
                 foreach (var file in Directory.GetFiles(path))
                 {
                     FileInfo fileInfo = new FileInfo(file);
-                    var item = new ListViewItem(new[] { fileInfo.Name, fileInfo.Length.ToString(),fileInfo.CreationTime.ToString() });
+                    var item = new ListViewItem(new[] { fileInfo.Name, fileInfo.Length.ToString(),fileInfo.CreationTime.ToString(),fileInfo.FullName.ToString() });
                     item.ImageIndex = 1; // Set file icon index
                     listView.Items.Add(item);
 
@@ -130,7 +131,7 @@ namespace List5
             else if(fileInfo.Extension==".txt")
             {
                 InspectAndEdit inspectAndEdit = new InspectAndEdit();
-                inspectAndEdit.currentFile = Path.Combine(currentPathLeft, selectedItem.Text);
+                inspectAndEdit.currentFile = selectedItem.SubItems[3].Text;
                 inspectAndEdit.ShowDialog();
             }
         }
@@ -373,26 +374,84 @@ namespace List5
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             leftListView.Items.Clear();
-            foreach(var item in leftItems)
+            if (textBox1.Text=="")
             {
-                if(item.Text.Contains(textBox1.Text))
+                leftListView.Items.AddRange(leftItems.ToArray());
+            }
+            else if (!checkBox1.Checked)
+            {
+                foreach (var item in Directory.GetFiles(currentPathLeft, "*.*", SearchOption.AllDirectories))
                 {
-                    leftListView.Items.Add(item);
+                    FileInfo fileInfo = new FileInfo(item);
+                    if (fileInfo.Name.ToLower().Contains(textBox1.Text.ToLower()))
+                    {
+                        ListViewItem listViewItem = new ListViewItem(new[] { fileInfo.Name, fileInfo.Length.ToString(), fileInfo.CreationTime.ToString(),fileInfo.FullName });
+                        listViewItem.ImageIndex = 1;
+                        leftListView.Items.Add(listViewItem);
+                    }
                 }
             }
+            else
+            {
+                foreach (var item in Directory.GetFiles(currentPathLeft, "*.*", SearchOption.AllDirectories))
+                {
+                    FileInfo fileInfo = new FileInfo(item);
+                    if (fileInfo.Extension == ".txt")
+                    {
+                        if(File.ReadAllText(fileInfo.FullName).ToLower().Contains(textBox1.Text.ToLower()))
+                        {
+                            ListViewItem listViewItem = new ListViewItem(new[] { fileInfo.Name, fileInfo.Length.ToString(), fileInfo.CreationTime.ToString(), fileInfo.FullName });
+                            listViewItem.ImageIndex = 1;
+                            leftListView.Items.Add(listViewItem);
+                        }
+                    }
+                }
 
+            }
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
             rightListView.Items.Clear();
-            foreach (var item in rightItems)
+            if (textBox2.Text == "")
             {
-                if (item.Text.Contains(textBox2.Text))
+                rightListView.Items.AddRange(rightItems.ToArray());
+            }
+            else if (!checkBox2.Checked)
+            {
+                foreach (var item in Directory.GetFiles(currentPathRight, "*.*", SearchOption.AllDirectories))
                 {
-                    rightListView.Items.Add(item);
+                    FileInfo fileInfo = new FileInfo(item);
+                    if (fileInfo.Name.ToLower().Contains(textBox2.Text.ToLower()))
+                    {
+                        ListViewItem listViewItem = new ListViewItem(new[] { fileInfo.Name, fileInfo.Length.ToString(), fileInfo.CreationTime.ToString(), fileInfo.FullName });
+                        listViewItem.ImageIndex = 1;
+                        rightListView.Items.Add(listViewItem);
+                    }
                 }
             }
+            else
+            {
+                foreach (var item in Directory.GetFiles(currentPathRight, "*.*", SearchOption.AllDirectories))
+                {
+                    FileInfo fileInfo = new FileInfo(item);
+                    if (fileInfo.Extension == ".txt")
+                    {
+                        if (File.ReadAllText(fileInfo.FullName).ToLower().Contains(textBox2.Text.ToLower()))
+                        {
+                            ListViewItem listViewItem = new ListViewItem(new[] { fileInfo.Name, fileInfo.Length.ToString(), fileInfo.CreationTime.ToString(), fileInfo.FullName });
+                            listViewItem.ImageIndex = 1;
+                            rightListView.Items.Add(listViewItem);
+                        }
+                    }
+                }
+
+            }
+        }
+
+        private void SearchContent()
+        {
+
         }
     }
 }
