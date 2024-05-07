@@ -23,6 +23,9 @@ namespace List5
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         static extern uint SendMessage(IntPtr hWnd, uint Msg, uint wParam, uint lParam);
 
+        private List<ListViewItem> leftItems = new List<ListViewItem>();
+        private List<ListViewItem> rightItems = new List<ListViewItem>();
+
         public static Form1 Instance;
         private string currentPathLeft;
         private string currentPathRight;
@@ -84,6 +87,7 @@ namespace List5
         {
             listView.Items.Clear();
             RenameLabels();
+            leftItems.Clear();rightItems.Clear();
             try
             {
                 foreach (var directory in Directory.GetDirectories(path))
@@ -92,6 +96,9 @@ namespace List5
                     var item = new ListViewItem(new[] { fileInfo.Name, "<DIR>",fileInfo.CreationTime.ToString()});
                     item.ImageIndex = 0; // Set folder icon index
                     listView.Items.Add(item);
+
+                    if (listView.Name == "leftListView") leftItems.Add(item);
+                    else rightItems.Add(item);
                 }
                 foreach (var file in Directory.GetFiles(path))
                 {
@@ -99,12 +106,16 @@ namespace List5
                     var item = new ListViewItem(new[] { fileInfo.Name, fileInfo.Length.ToString(),fileInfo.CreationTime.ToString() });
                     item.ImageIndex = 1; // Set file icon index
                     listView.Items.Add(item);
+
+                    if (listView.Name == "leftListView") leftItems.Add(item);
+                    else rightItems.Add(item);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error reading directory: {ex.Message}");
             }
+
         }
 
         private void leftListView_DoubleClick(object sender, EventArgs e)
@@ -357,6 +368,31 @@ namespace List5
             }
             string argument = "/select, \"" + filePath + "\"";
             System.Diagnostics.Process.Start("explorer.exe", argument);
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            leftListView.Items.Clear();
+            foreach(var item in leftItems)
+            {
+                if(item.Text.Contains(textBox1.Text))
+                {
+                    leftListView.Items.Add(item);
+                }
+            }
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            rightListView.Items.Clear();
+            foreach (var item in rightItems)
+            {
+                if (item.Text.Contains(textBox2.Text))
+                {
+                    rightListView.Items.Add(item);
+                }
+            }
         }
     }
 }
