@@ -1,0 +1,29 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<title>@ViewData["Title"]</title>
+<script src="/_framework/aspnetcore-browser-refresh.js"></script>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+
+<div class="container-sm w-25">
+<form method="post" asp-action="Result">
+    <h1 class="text-center">Total: @Cart.GetTotal()$</h1>
+    <div class="form-group">
+        <label for="">Payment Method</label>
+        <select name="Payment" class="form-select">
+            <option value="Card">Card</option>
+            <option value="Cash">Cash</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="shipmentAddress">Shipment Address</label>
+        <input name="shipmentAddress" class="form-control" required >
+    </div>
+    <button type="submit" class="btn btn-primary mt-3 w-100">Finish the Payment</button>
+    <button asp-action="Index" class="btn btn-primary btn-danger mt-3 w-100">Go Back</button>
+</form>
+</div>

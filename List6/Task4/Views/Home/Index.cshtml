@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = "Products";
+}
+
+@model CartViewModel
+
+<title>@ViewData["Title"]</title>
+<script src="/_framework/aspnetcore-browser-refresh.js"></script>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+<div class="text-center">
+    <table class="table table-hover h-50">
+        <thead>
+            <tr>
+                <th scope="col">Product Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Stock</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach(var product in Products.list)
+    {
+            <tr>
+                <th scope="row">@product.Name</th>
+                <td>@product.Price</td>
+                <td>@product.StockLevel</td>
+                <td>
+                    <form method="post" asp-action="AddToCart">
+                        <input class="d-none" asp-for="ProductId" value="@product.Id"/>
+                        <input class="d-none" asp-for="ProductName" value="@product.Name"/>
+                    <div class="row w-100 align-items-center h-100 justify-content-center">
+                        <select asp-for="Quantity" class="form-select w-25">
+                            @for(int i=1;i<=product.StockLevel;i++)
+                            {
+                                @if(i==1){<option selected="selected" value="@i">@i</option>}
+                                else{<option value="@i">@i</option>}
+                            }
+                        </select>
+                        <button type="submit" class="btn btn-primary w-50">Add</button>
+                    </div>
+                    </form>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+
+    <div class="h-50">
+        <h1>Cart</h1>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Cart.items)
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>@item.Quantity</td>
+                        <td>
+                            <form method="post" asp-action="RemoveFromCart">
+                                <input class="d-none" asp-for="ProductId" value="@item.ProductId" />
+                                <input class="d-none" asp-for="ProductName" value="@item.ProductName" />
+                                <input class="d-none" asp-for="Quantity" value="@item.Quantity" />
+                                <button type="submit" class="btn btn-primary btn-danger">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <p>Total: @Cart.GetTotal()$</p>
+
+        @if(Cart.items.Count>0)
+        {
+            <form method="post" asp-action="BuyTheProducts">
+                <button class="btn btn-primary btn-success position-absolute" style="bottom:0;right:0">Buy The Products</button>
+            </form>
+        }
+    </div>
+</div>
