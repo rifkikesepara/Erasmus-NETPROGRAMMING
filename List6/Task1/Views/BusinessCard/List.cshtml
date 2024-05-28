@@ -1,0 +1,36 @@
+﻿@model BusinessCardViewModel
+
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Task1</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+
+<div class="container h-100 d-flex flex-column justify-content-center align-items-center text-center">
+<h1>Business Card</h1>
+    @{
+        string fontType = Model.IsItalic ? "italic" : "normal";
+        string bold = Model.IsBold ? "bold" : "intial";
+        string underlined = Model.IsUnderlined ? "underline" : "none";
+    }
+        <div class="card w-auto">
+        <div class="card-body" style="background-color:@Model.BackgroundColor;">
+            <h5 class="card-title" style="font-family: @Model.Typeface;font-size:@Model.FontSize;font-style:@fontType;
+            font-weight:@bold;text-decoration:@underlined">@Model.Name @Model.Surname </h5>
+
+            <p class="card-text" style="font-family: @Model.Typeface;font-size:@Model.FontSize;font-style:@fontType;
+            font-weight:@bold;text-decoration:@underlined">
+                Age:@Model.Age<br/>
+                Id Number: @Model.IdNumber<br/>
+                City: @Model.City<br/>
+                Street: @Model.Street<br/>
+                House/Apartment Number: @Model.HouseApartmentNumber
+                </p>
+        </div>
+    </div>
+    <a href="../BusinessCard" class="btn btn-primary">Create New User</a>
+
+</div>
+
