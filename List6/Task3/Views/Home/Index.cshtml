@@ -1,0 +1,84 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model NumbersViewModel
+@{
+}
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Random Number Generator</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <script src="/_framework/aspnetcore-browser-refresh.js"></script>
+    @* <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" /> *@
+</head>
+<body>
+@* <a href="/BusinessCard/List" class="btn btn-primary">See the List</a> *@
+<div class="container h-100 d-flex align-items-center justify-content-center">
+    <div class="container text-center w-auto">
+        <form method="post" action="/Home/GenerateNumbers">
+            <div class="container w-50">
+                <div asp-validation-summary="All"> </div>
+            </div>
+                <div class="form-group w-auto m-auto">
+                    <label asp-for="Amount" class="form-label">Amount</label>
+                    <input asp-for="Amount" class="form-control">
+                </div>
+                <div class="row justify-content-center">
+                        <div class="form-group w-50">
+                            <label asp-for="Min" class="form-label">Min</label>
+                            <input asp-for="Min" class="form-control">
+                        </div>
+
+                        <div class="form-group w-50">
+                            <label asp-for="Max" class="form-label">Max</label>
+                            <input asp-for="Max" class="form-control">
+                        </div>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Generate Numbers</button>
+        </form>
+    </div>
+    @if(Model!=null)
+    {
+        <div class="row w-100">
+            <div class="column align-items-center text-center w-auto" style="">
+                <h4>Generated Numbers</h4>
+                    <div class="card" style="overflow-y:scroll;width:18rem;max-width:400px;max-height:200px;">
+                    <p>@string.Join(", ", Model.GeneratedNumbers)</p>
+                </div>            
+            </div>
+            <div class="column align-items-center text-center w-auto" style="max-width:400px;max-height:200px;">
+                <h4>Non-Repeated Numbers</h4>
+                    <div class="card" style="overflow-y:scroll;width:18rem;max-width:400px;max-height:200px;">
+                    <p>@string.Join(", ", Model.NonRepeatedNumbers)</p>
+                </div>            
+            </div>
+            <div class="column align-items-center text-center w-auto" style="max-width:400px">
+                <h4>Repetitions</h4>
+                    <div class="card" style="overflow-y:scroll;width:18rem;max-width:400px;max-height:200px;">
+                        <table class="table">
+                            <thead style="position:sticky;top:0; background-color:white;">
+                                <tr>
+                                    <th scope="col">Number</th>
+                                    <th scope="col">Repetition</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach(var item in Model.RepetationNumbers)
+                                {
+                                <tr>
+                                    <th scope="row">@item.Key</th>
+                                    <td>@item.Value</td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                </div>            
+            </div>
+        </div>
+
+    }
+</div>
+
+<script src="/_framework/aspnetcore-browser-refresh.js"></script>
+</body>
