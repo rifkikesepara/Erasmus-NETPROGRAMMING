@@ -15,7 +15,9 @@ namespace CarDealership
 {
     public partial class Main : Form
     {
-        public class Car
+        public List<Car> CarCollection = new List<Car>();
+
+        public abstract class Car
         {
             //public Car(string brand,string model,string year)
             //{
@@ -142,6 +144,7 @@ namespace CarDealership
                 case "Off-Road":car = new OffRoad(textBox1.Text, textBox2.Text, textBox3.Text);break;
             }
              
+            CarCollection.Add(car);
 
             int index = dataGridView1.Rows.Add();
             dataGridView1.Rows[index].Cells[0].Value = car.Brand.ToUpper();

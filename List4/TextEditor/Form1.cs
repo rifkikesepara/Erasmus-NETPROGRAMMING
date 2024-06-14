@@ -84,7 +84,7 @@ namespace TextEditor
             int index = 0;
             richTextBox1.SelectAll();
             richTextBox1.SelectionBackColor = Color.White;
-            while (index < richTextBox1.Text.LastIndexOf(textBox1.Text) && textBox1.Text.Length > 1)
+            while (index <= richTextBox1.Text.LastIndexOf(textBox1.Text) && textBox1.Text.Length !=0)
             {
                 richTextBox1.Find(textBox1.Text, index, richTextBox1.TextLength, RichTextBoxFinds.MatchCase);
                 richTextBox1.SelectionBackColor = Color.Yellow;

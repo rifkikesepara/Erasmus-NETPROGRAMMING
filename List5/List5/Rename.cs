@@ -52,7 +52,11 @@ namespace List5
                             }
                             else
                             {
+                                if(!File.Exists(Path.Combine(currentPath, currentFileName)))
+                                {
                                 File.Move(Path.Combine(currentPath, currentFileName), Path.Combine(currentPath, textBox1.Text));
+
+                                }
                             }
                             Close();
                             break;

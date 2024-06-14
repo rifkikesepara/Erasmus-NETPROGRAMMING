@@ -100,9 +100,43 @@ namespace List4
 
         private void PlayAI()
         {
-            Random rnd=new Random();
+            Random rnd = new Random();
+            int point = 0;
             int x = rnd.Next(0, 3), y = rnd.Next(0, 3);
-            while(labels[x, y].Text != "")
+
+            //checking the rows
+            for (int i = 0; i < 3; i++)
+            {
+                int sum = 0;
+                for (int j = 0; j < 3; j++)
+                {
+                    if (labels[i, j].Text == "X") sum += 6;
+                    else if (labels[i, j].Text == "O") sum += 2;
+                }
+                if (sum >= point)
+                {
+                    point = sum;
+                    x = i;
+                }
+            }
+            point = 0;
+            //checking the columns
+            for (int i = 0; i < 3; i++)
+            {
+                int sum = 0;
+                for (int j = 0; j < 3; j++)
+                {
+                    if (labels[j, i].Text == "X") sum += 6;
+                    else if (labels[j, i].Text == "O") sum += 2;
+                }
+                if (sum >= point)
+                {
+                    point = sum;
+                    y = i;
+                }
+            }
+
+            while (labels[x, y].Text != "")
             {
                 x = rnd.Next(0, 3);
                 y = rnd.Next(0, 3);
